@@ -5,12 +5,14 @@ metadata:
 spec:
   strategy: streaming
   collector:
+    replicas: 1
     options:
       kafka: # <1>
         producer:
           topic: jaeger-spans
           brokers: kafka.default.svc:9092
   ingester:
+    replicas: 1
     options:
       kafka: # <1>
         consumer:
