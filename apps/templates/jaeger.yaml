@@ -1,13 +1,27 @@
 apiVersion: jaegertracing.io/v1
 kind: Jaeger
 metadata:
-  name: auto-provision-kafka
+  name: simple-streaming
 spec:
   strategy: streaming
+  collector:
+    options:
+      kafka: # <1>
+        producer:
+          topic: jaeger-spans
+          brokers: kafka.default.svc:9092
+  ingester:
+    options:
+      kafka: # <1>
+        consumer:
+          topic: jaeger-spans
+          brokers: kafka.default.svc:9092
+      ingester:
+        deadlockInterval: 5s # <2>
   storage:
     type: elasticsearch
     options:
       es:
-        # Note: This assumes elasticsearch is running in the "default" namespace.
         server-urls: http://elasticsearch-master.default.svc:9200
-
+  ingress:
+    enabled: false
