@@ -1,0 +1,7 @@
+apiVersion: v2
+name: istio-deploy
+description: istio application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
